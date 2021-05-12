@@ -1,3 +1,3 @@
 <?php
-header("Location:./Controller/ShowTaskListController.php");
+header("Location:./src/View/home.php");
 ?>
