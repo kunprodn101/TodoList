@@ -1,18 +1,22 @@
 <?php
 
-namespace Model;
+namespace App\Model;
+
+require_once(__DIR__ . "/../Database/DefineDatabase.inc");
 
 /**
- * Model connect Todo data
+ * TodoModel
  */
 class TodoModel
 {
+    private $connection;
+
     /**
      * construct
      */
     public function __construct()
     {
-
+        $this->connection = $this->connectDB();
     }
 
     /**
@@ -20,16 +24,14 @@ class TodoModel
      */
     public function getAllTask()
     {
-        $connection = $this->connectDB();
-        $sql = "SELECT * FROM todo ";
-        $result = $connection->query($sql);
+        $sql = "SELECT * FROM todo ORDER BY id DESC";
+        $result = $this->connection->query($sql);
         $dataTodo = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 array_push($dataTodo, $row);
             }
         }
-        $connection->close();
         return $dataTodo;
     }
 
@@ -40,12 +42,10 @@ class TodoModel
      */
     public function addTask($data)
     {
-        $connection = $this->connectDB();
-        $stmt = $connection->prepare("INSERT INTO todo (task_name, start_date, end_date, status) VALUES (?, ?, ?, ?)");
+        $stmt = $this->connection->prepare("INSERT INTO todo (task_name, start_date, end_date, status) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssss', $data['taskName'], $data['startDate'], $data['endDate'], $data['status']);
         $check = $stmt->execute();
         $stmt->close();
-        $connection->close();
         return $check;
     }
 
@@ -56,10 +56,8 @@ class TodoModel
      */
     public function editTask($data)
     {
-        $connection = $this->connectDB();
         $sql = "UPDATE todo SET task_name = '" . $data['taskName'] . "', start_date = '" . $data['startDate'] . "', end_date = '" . $data['endDate'] . "', status = '" . $data['status'] . "' WHERE id = " . $data['id'];
-        $check = $connection->query($sql);
-        $connection->close();
+        $check = $this->connection->query($sql);
         return $check;
     }
 
@@ -70,10 +68,8 @@ class TodoModel
      */
     public function deleteTask($id)
     {
-        $connection = $this->connectDB();
         $sql = "DELETE FROM todo WHERE id = " . $id;
-        $check = $connection->query($sql);
-        $connection->close();
+        $check = $this->connection->query($sql);
         return $check;
     }
 
@@ -82,12 +78,7 @@ class TodoModel
      */
     private function connectDB()
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "todolist";
-
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect(constant("SERVER_NAME"), constant("USER_NAME"), constant("PASS_WORK"), constant("DATABASE_NAME"));
 
         if ($connection->connect_error) {
             echo("Connection failed: " . $connection->connect_error);

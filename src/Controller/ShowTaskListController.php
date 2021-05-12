@@ -1,21 +1,14 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
+use App\Controller\Base\BaseController;
+
+require_once("./Base/BaseController.php");
 require_once("../Model/TodoModel.php");
 
-class ShowTaskListController
+class ShowTaskListController extends BaseController
 {
-    public $model;
-
-    /**
-     * construct
-     */
-    public function __construct()
-    {
-        $this->model = new \Model\TodoModel();
-    }
-
     /**
      * get work list
      */

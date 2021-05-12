@@ -1,25 +1,23 @@
 <?php
 
-namespace Controller;
+namespace App\Controller;
 
+use App\Controller\Base\BaseController;
+
+require_once("./Base/BaseController.php");
 require_once("../Model/TodoModel.php");
 
-class CalendarController
+class CalendarController extends BaseController
 {
-    public $model;
-
-    public function __construct()
-    {
-        $this->model = new \Model\TodoModel();
-    }
-
+    /**
+     * show calendar
+     */
     public function show()
     {
         session_start();
         $_SESSION['todoList'] = $this->model->getAllTask();
         header('Location:../View/calendar.php');
     }
-
 }
 
 (new CalendarController())->show();
