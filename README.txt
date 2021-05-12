@@ -5,3 +5,6 @@ file create table
 
 link local project
 	http://localhost:8000/TodoList
+	
+run unit test
+	 .\vendor\bin\phpunit
