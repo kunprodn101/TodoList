@@ -6,7 +6,7 @@ if (isset($_SESSION['todoList'])) {
     $todoList = $_SESSION['todoList'];
     unset($_SESSION['todoList']);
 } else {
-    header("Location:../index.php");
+    header("Location:../Controller/ShowTaskListController.php");
     exit();
 }
 

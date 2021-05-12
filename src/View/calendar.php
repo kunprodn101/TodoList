@@ -65,7 +65,7 @@ if (isset($_SESSION['todoList'])) {
     <div class="m-portlet__head-caption">
         <div class="m-portlet__head-title">
             <h3 class="m-portlet__head-text">
-                <a href="../index.php" class="btn"><i class="fa fa-home"></i></a>
+                <a href="../../index.php" class="btn"><i class="fa fa-home"></i></a>
             </h3>
         </div>
     </div>
